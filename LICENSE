@@ -1,0 +1,9 @@
+This project is licensed under the GNU General Public License v2.0 only
+(SPDX: GPL-2.0-only), matching the Linux kernel module license it ships.
+
+Full license text: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+
+You should obtain a copy of the GNU General Public License along with this
+project; if not, see the URL above. To use GitHub's license detection, you
+may replace this file with the full GPL-2.0 text (GitHub: "Add file" ->
+"Create new file" -> name it "LICENSE" -> "Choose a license template").
