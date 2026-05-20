@@ -28,7 +28,7 @@ controllers via ACPI — this fix applies. (`15` means enabled.)
 ## Install
 
 ```sh
-git clone https://github.com/<you>/vaio-touchpad-fix
+git clone https://github.com/<dsvi-b/vaio-touchpad-fix
 cd vaio-touchpad-fix
 sudo ./install.sh
 sudo reboot
