@@ -34,6 +34,32 @@ sudo ./install.sh
 sudo reboot
 ```
 
+The installer detects the host instead of assuming Ubuntu. It supports:
+
+| Family | Package manager | Persistent kernel arguments |
+|---|---|---|
+| Debian / Ubuntu | `apt-get` | `update-grub` |
+| Fedora / RHEL family | `dnf` | `grubby` |
+| openSUSE | `zypper` | GRUB tooling |
+| Arch family | `pacman` | GRUB or `kernel-install` |
+| Void | `xbps-install` | GRUB or `kernel-install` |
+| Alpine | `apk` | GRUB or `kernel-install` |
+| Gentoo | `emerge` | GRUB or `kernel-install` |
+
+On an unlisted distribution, install DKMS, a C compiler, `make`, and the
+headers matching the running kernel, then use `sudo ./install.sh
+--no-install-deps`. The installer refuses to proceed if it cannot identify a
+safe persistent kernel-argument mechanism. Inspect the exact plan first with:
+
+```sh
+./install.sh --dry-run
+```
+
+Immutable/image-based systems need their own kernel-module packaging workflow.
+The installer recognizes `rpm-ostree kargs`, but it deliberately stops if the
+DKMS toolchain is not already available in the deployment. Secure Boot also
+requires the locally built module to be signed with an enrolled key.
+
 After reboot:
 
 ```sh
