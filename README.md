@@ -59,6 +59,8 @@ Immutable/image-based systems need their own kernel-module packaging workflow.
 The installer recognizes `rpm-ostree kargs`, but it deliberately stops if the
 DKMS toolchain is not already available in the deployment. Secure Boot also
 requires the locally built module to be signed with an enrolled key.
+The installer aborts before changing the system when it detects Secure Boot or
+an active, different `acpi_osi` value; those cases require an explicit review.
 
 After reboot:
 

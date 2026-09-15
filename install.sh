@@ -51,6 +51,19 @@ detect_boot_tool() {
   fi
 }
 
+preflight_firmware() {
+  if have mokutil; then
+    secure_boot=$(mokutil --sb-state 2>/dev/null || true)
+    grep -Fq 'SecureBoot enabled' <<<"$secure_boot" && \
+      die "Secure Boot is enabled; enroll a module-signing key before installing this DKMS module"
+  fi
+
+  cmdline=$(cat /proc/cmdline 2>/dev/null || true)
+  if [[ $cmdline == *acpi_osi=* && $cmdline != *'acpi_osi=Windows 2015'* ]]; then
+    die "A different acpi_osi parameter is active; review it manually instead of overwriting it"
+  fi
+}
+
 install_dependencies() {
   headers_present && have dkms && have make && have cc && return
   ((INSTALL_DEPS)) || die "DKMS/compiler/matching headers for $KERNEL are missing"
@@ -124,6 +137,7 @@ BOOT_TOOL=$(detect_boot_tool)
 [[ $BOOT_TOOL != unsupported ]] || die "No supported boot configuration tool found"
 printf 'Kernel: %s\nBoot configuration: %s\n' "$KERNEL" "$BOOT_TOOL"
 
+preflight_firmware
 install_dependencies
 run install -d -m0755 "$SRC"
 run install -m0644 "$HERE/amd_i2c_enable.c" "$HERE/Makefile" "$HERE/dkms.conf" "$SRC/"
